@@ -19,10 +19,12 @@ def carregar_credenciais(arquivo):
 
 if __name__ == "__main__":
     arquivos = []
-    arquivos += ['credenciais1.txt', 'credenciais2.txt']
+    # arquivos += ['credenciais1.txt', 'credenciais2.txt']
     # arquivos += ['credenciais3.txt']
-    arquivos += ['credenciais4.txt', 'credenciais5.txt']
+    # arquivos += ['credenciais4.txt', 'credenciais5.txt']
     # arquivos += ['credenciais6.txt']
+    arquivos += ['credenciais_text_1.txt']
+    arquivos += ['credenciais_text_2.txt']
 
     for arquivo in arquivos:
         credenciais = carregar_credenciais(arquivo)

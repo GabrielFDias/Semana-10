@@ -5,6 +5,8 @@ from integrador.classes.Estrategias import Estrategia_SQLite
 estrategias = {
     'csv': Estrategia_CSV(),
     'sqlite': Estrategia_SQLite(),
+    'texto_1': Estrategia_Texto1(),
+    'texto_2': Estrategia_Texto2(),
 }
 
 

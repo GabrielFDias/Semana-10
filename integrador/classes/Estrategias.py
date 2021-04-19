@@ -38,6 +38,7 @@ class Estrategia_SQLite(Estrategia):
         db = dados['db']
         with closing(sqlite3.connect(db)) as conn:
             cursor = conn.cursor()
+            # query alterada para selecionar apenas as colunas total e vendido_em
             cursor.execute("SELECT total, vendido_em FROM vendas;")
             for linha in cursor.fetchall():
                 lista_registros.append(linha)
@@ -57,7 +58,8 @@ class Estrategia_CSV(Estrategia):
         with open(arquivo, newline='\n') as csvfile:
             reader = csv.DictReader(csvfile)
             for line in reader:
-                lista_registros.append(line)
+                # selecionando apenas as colunas total e vendido_em do dicionário
+                lista_registros.append(line["total"], line["vendido_em"])
         return lista_registros
 
     def parametros_necessarios(self):
@@ -65,3 +67,46 @@ class Estrategia_CSV(Estrategia):
 
     def nome(self):
         return 'Algoritmo CSV'
+
+class Estrategia_Texto1(Estrategia):
+    def execute(self, dados):
+        lista = []
+        dados_arquivo = dados['arquivo']
+        with open(dados_arquivo, newline='\n') as arq:
+            for line in arq:
+                line = line.replace("\n","")
+                # pular as linhas que não devem ser lidas
+                if line.startswith("Arquivo") or line.startswith("*") or line.startswith("DATA"):
+                    continue
+
+                line = line.split("       ")
+                lista_registros.append((line[4].strip(), float(line[3].strip()), line[0].strip()))
+        return lista
+
+    def parametros_necessarios(self):
+        return ('Algoritmo', 'Arquivo')
+
+    def nome(self):
+        return 'Algoritmo Texto 1'
+
+
+class Estrategia_Texto2(Estrategia):
+    def execute(self, dados):
+        lista = []
+        dados_arquivo = dados['arquivo']
+        with open(arquivo, newline='\n') as arq:
+            for line in arq:
+                line = line.replace("\n","")
+                # pular as linhas que não devem ser lidas
+                if line.startswith("Arquivo") or line.startswith("*") or line.startswith("DATA"):
+                    continue
+
+                line = line.split("       ")
+                lista.append((line[1].strip(), float(line[2].strip()), line[0].strip()))
+        return lista
+
+    def parametros_necessarios(self):
+        return ('Algoritmo', 'Arquivo')
+
+    def nome(self):
+        return 'Algoritmo Texto 2'
